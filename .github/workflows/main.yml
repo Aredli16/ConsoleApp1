@@ -100,4 +100,17 @@ jobs:
           push: true
           tags: ghcr.io/aredli16/fibonacci:latest,ghcr.io/aredli16/fibonacci:${{ needs.tags.outputs.new_version }}
           labels: ${{ steps.meta.outputs.labels }}
-        
+  
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Publish to Azure
+        if: github.ref == 'refs/heads/main'
+        run: |
+          az group create --name FibonacciGithub --location northeurope
+          az container create -g FibonacciGithub --name fibo  --dns-name-label fibo-aredli16 --image ghcr.io/aredli16t/fibonacci:${{ needs.tags.outputs.new_version }} --ports 8080 --os-type Linux --cpu 1 --memory 1 
