@@ -74,4 +74,25 @@ jobs:
         with:
           name: Publish linux-x64 Fibonacci
           path: ./linux-x64/fibonacci
+  
+  docker:
+    runs-on: ubuntu-latest
+    needs: [build, publish]
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3.3.0
+        with:
+          registry: "ghcr.io"
+          username: ${{ secrets.GITHUB_ACTOR }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Docker image
+        run: docker build -t ghcr.io/aredli16/fibonacci:latest -t 
+      - name: Build and push Docker image
+        if: github.ref == 'refs/heads/main'
+        uses: docker/build-push-action@v6.10.0
+        with:
+          push: true
+          tags: ghcr.io/aredli16/fibonacci:latest,ghcr.io/aredli16/fibonacci:${{ needs.tags.outputs.new_version }}
+          labels: ${{ steps.meta.outputs.labels }}
         
