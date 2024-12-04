@@ -5,7 +5,7 @@ using Leonardo;
 
 var stopwatch = new Stopwatch();
 stopwatch.Start();
-var results = await Fibonnaci.RunAsync(args);
+var results = await Fibonacci.RunAsync(args);
 stopwatch.Stop();
 Console.WriteLine($"Elapsed time: {stopwatch.ElapsedMilliseconds}ms");
 

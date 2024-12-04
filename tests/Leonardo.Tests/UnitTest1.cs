@@ -8,7 +8,7 @@ public class UnitTest1
     public void Test1()
     {
         var strings = new string[] { "1", "2", "3", "4", "5" };
-        var results = Fibonnaci.RunAsync(strings).Result;
+        var results = Fibonacci.RunAsync(strings).Result;
         Assert.Equal(1, results[0].Result);
         Assert.Equal(1, results[1].Result);
         Assert.Equal(2, results[2].Result);
