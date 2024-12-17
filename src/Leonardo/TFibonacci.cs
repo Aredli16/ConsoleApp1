@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Leonardo;
 
-namespace Leonardo;
-
-public partial class TFibonacci
+public class TFibonacci
 {
     public Guid FibId { get; set; }
 
